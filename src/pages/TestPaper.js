@@ -1,7 +1,7 @@
 import React from "react";
 import { ReturnBtn } from "./Home";
 import { showConfirm } from "./Confirm";
-import { message } from "antd";
+import { message, Button } from "antd";
 import "./TestPaper.css";
 
 function getRandomNum() {
@@ -45,6 +45,12 @@ export class TestPaper extends React.Component {
 
   render() {
     let testBody = this.state.paper.map((item) => {
+      let classList = ["answerInput"];
+      if (this.state.complete) {
+        classList.push(item.correct ? "correctColor" : "wrongColor");
+        classList.push("whiteFont");
+      }
+      classList = classList.join(" ");
       return (
         <div key={item.id} className="questionRow">
           <span>{item.n1}</span>
@@ -52,8 +58,9 @@ export class TestPaper extends React.Component {
           <span>{item.n2}</span>
           <span>=</span>
           <input
-            className="answerInput"
+            className={classList}
             type="number"
+            disabled={this.state.complete}
             onChange={(e) => {
               item.userAnswer = e.target.value;
             }}
@@ -66,7 +73,7 @@ export class TestPaper extends React.Component {
       <div className="content">
         <div className="questionBlock">{testBody}</div>
         <div className="btnRow">
-          <button onClick={this.submit.bind(this)}>提交</button>
+          <Button onClick={this.submit.bind(this)}>提交</Button>
           <ReturnBtn />
         </div>
       </div>
@@ -75,11 +82,11 @@ export class TestPaper extends React.Component {
 
   submit() {
     if (this.state.complete) {
-      message.error("已经提交过了");
+      message.error("已经提交过了",1);
       return;
     }
     showConfirm("是否确认提交", () => {
-      message.success("提交成功");
+      message.success("提交成功",1);
       let paper = this.state.paper;
       paper.forEach((item) => {
         item.correct = Number(item.userAnswer) === item.answer;

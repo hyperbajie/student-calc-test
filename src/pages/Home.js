@@ -1,17 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { showConfirm } from "./Confirm";
+import { Button, message } from "antd";
 import "./Home.css";
 
 // 返回按钮
 export function ReturnBtn(props) {
   let navigate = useNavigate();
   return (
-    <button
+    <Button
       onClick={() => {
-        navigate("/");
+        showConfirm("是否确认离开", () => {
+          navigate("/");
+        });
       }}
     >
       {props.btnName || "返回"}
-    </button>
+    </Button>
   );
 }
 
@@ -20,22 +24,23 @@ export function Home() {
   return (
     <div>
       <div className="btn-row">
-        <button
+        <Button
           onClick={() => {
             navigate("/paper");
           }}
         >
           十题测验
-        </button>
+        </Button>
       </div>
       <div>
-        <button
+        <Button
           onClick={() => {
-            navigate("/test");
+            message.warn("暂未开发",1);
+            // navigate("/test");
           }}
         >
           练习
-        </button>
+        </Button>
       </div>
     </div>
   );
