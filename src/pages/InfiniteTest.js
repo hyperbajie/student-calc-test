@@ -1,3 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 export function InfiniteTest() {
-  return <div>infinite test</div>;
+  let navigate = useNavigate();
+  return (
+    <div>
+      infinite test
+      <button
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        返回
+      </button>
+    </div>
+  );
 }
